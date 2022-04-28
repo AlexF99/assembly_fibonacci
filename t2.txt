@@ -19,6 +19,7 @@ FORMAIN:
     jal r15, MUL
     add r5, r0, r1
     addi r4, r4, 1 # i++
+    j FORMAIN
 
 MUL:
     addi r1, r0, 0 # mul = 0
@@ -28,11 +29,29 @@ FORMUL:
     beq r11, r0, RETURN
     add r1, r1, r3
     j FORMUL
-RETURN:
+RETURNMUL:
     jr r15  # RETURN
 
-
 FIB:
+    addi r12, r0, 1
+    add r8, r0, r2
+    st 0(r8), r12
+    st 1(r8), r12
+    addi r12, r0, 2
+FORFIB:
+    slt r9, r12, r3
+    beq r9, r0, RETURNFIB
+    addi r6, r8, -1
+    addi r7, r8, -2
+    ld r4, 0(r6)
+    ld r5, 0(r7)
+    add r10, r4, r5
+    st 0(r8), r10
+    addi r8, r8, 1
+    j FORFIB
+
+RETURNFIB:
+    jr r15
 
 HALT:
     halt
